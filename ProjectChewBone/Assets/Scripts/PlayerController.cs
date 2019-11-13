@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public Transform tr;
-
-    public bool teleportSwitch = false;
+    public Transform playerTransform;
 
     public float moveSpeed = 5f;
 
@@ -25,10 +23,6 @@ public class PlayerController : MonoBehaviour
     {
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
-        if (Input.GetKeyDown(KeyCode.X))
-            teleportSwitch = true;
-        else if (Input.GetKeyUp(KeyCode.X))
-            teleportSwitch = false;
     }
 
     private void FixedUpdate()
@@ -36,8 +30,11 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
 
-    public void Hi()
+    public void SetLocation(Vector2 positionVector)
     {
-        Debug.Log("Hello World");
+        playerTransform.position = positionVector;
     }
+    
+    
+    
 }
