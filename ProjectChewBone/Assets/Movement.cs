@@ -7,7 +7,9 @@ public class Movement : MonoBehaviour
     public float thrust, upthrust;
     public BoxCollider2D playercollidor;
     public bool JumpFlag, WallJumpFlag, UpFlag;
-    public int Direction;
+    private int Direction;
+    private float horizontalInput, verticalInput;
+    public float speed, JumpForce;
 
     // Start is called before the first frame update
     void Start()
@@ -18,13 +20,16 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
+
         //for only touching ground
-        if (Input.GetKeyUp(KeyCode.W))
+        if ((Input.GetKeyUp(KeyCode.W) && !Input.GetKey(KeyCode.UpArrow)) || (Input.GetKeyUp(KeyCode.UpArrow) && !Input.GetKey(KeyCode.W)))
         {
             UpFlag = false;
         }
         //check if player is pressing any buttons
-        if (Input.GetKey(KeyCode.D))
+        /*if (Input.GetKey(KeyCode.D))
         {
             
             player.AddForce(transform.right * thrust * Time.deltaTime, ForceMode2D.Impulse);
@@ -35,17 +40,22 @@ public class Movement : MonoBehaviour
         {
             Direction = -1;
             player.AddForce(- transform.right * thrust * Time.deltaTime, ForceMode2D.Impulse);
-        }
+        }*/
 
-        if (Input.GetKey(KeyCode.W))
+        player.velocity = new Vector2(speed * horizontalInput, player.velocity.y);
+
+        if (Input.GetKey(KeyCode.W)|| Input.GetKey(KeyCode.UpArrow))   //(verticalInput > 0)
         {
             //for wall jumping
             if (!JumpFlag && !UpFlag)
             //add key up check
             {
-                player.AddForce(transform.up * upthrust * Time.deltaTime, ForceMode2D.Impulse);
+                player.velocity = new Vector2(player.velocity.x, JumpForce);
                 JumpFlag = true;
                 UpFlag = true;
+                /*player.AddForce(transform.up * upthrust * Time.deltaTime, ForceMode2D.Impulse);
+                JumpFlag = true;
+                UpFlag = true;*/
             }
             
         }
@@ -60,21 +70,22 @@ public class Movement : MonoBehaviour
         if (collision.gameObject.tag == "Safe Platform")
         {
             Debug.Log("player has collided");
-            JumpFlag = false;   //set jump flag to on
+            //JumpFlag = false;   //set jump flag to on
         }
-//        if (collision.gameObject.tag == "Safe Wall")
-//        {
-//            Debug.Log("player has hit a wall");
-//            if (Input.GetKey(KeyCode.W))
-//            {
-                //player wall jumps off the wall
-//                player.AddForce(-1 * Direction * transform.right * upthrust * Time.deltaTime, ForceMode2D.Impulse);
- //               player.AddForce(transform.up * upthrust/2 * Time.fixedDeltaTime, ForceMode2D.Impulse);
-  //          }
-  //      }
+
         
        
     }
+
+    public void Jump()
+    {
+
+        player.velocity = new Vector2(player.velocity.x, JumpForce);
+        JumpFlag = true;
+        UpFlag = true;
+
+    }
+
 
 
 
