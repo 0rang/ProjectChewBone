@@ -30,7 +30,6 @@ public class ConductorController : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.RightArrow))
             {
-                Debug.Log("R");
                 teleportLocation.x += conductorTransform.localScale.x / 2 + 1;
                 collision.SendMessage("SetLocation", teleportLocation);
             }
