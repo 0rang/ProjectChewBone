@@ -14,7 +14,7 @@ public class ConductorController : MonoBehaviour
     void Start()
     {
         teleportLocation = conductorTransform.position;
-        Debug.Log(Quaternion.Angle(Quaternion.identity));
+        Debug.Log(Quaternion.Angle(Quaternion.identity, conductorTransform.rotation));
     }
 
     // Update is called once per frame
