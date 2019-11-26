@@ -14,6 +14,7 @@ public class ConductorController : MonoBehaviour
     void Start()
     {
         teleportLocation = conductorTransform.position;
+        Debug.Log(Quaternion.Angle(Quaternion.identity, conductorTransform.rotation));
     }
 
     // Update is called once per frame
@@ -24,13 +25,10 @@ public class ConductorController : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        
-
         if (Input.GetKeyDown(KeyCode.X))
         {
             if (Input.GetKey(KeyCode.RightArrow))
             {
-                Debug.Log("R");
                 teleportLocation.x += conductorTransform.localScale.x / 2 + 1;
                 collision.SendMessage("SetLocation", teleportLocation);
             }
