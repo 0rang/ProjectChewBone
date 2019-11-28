@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class ConductorController : MonoBehaviour
 {
+    public PlayerController player;
+
     public Transform conductorTransform;
 
     Vector2 teleportLocation;
+
+    float teleportDistance;
 
 
 
@@ -14,32 +18,49 @@ public class ConductorController : MonoBehaviour
     void Start()
     {
         teleportLocation = conductorTransform.position;
+        teleportDistance = conductorTransform.localScale.x / 2 + 1;
         Debug.Log(Quaternion.Angle(Quaternion.identity, conductorTransform.rotation));
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+    }
+
+    void FixedUpdate() 
+    {
+
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (Input.GetKeyDown(KeyCode.X))
         {
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                teleportLocation.x += conductorTransform.localScale.x / 2 + 1;
-                collision.SendMessage("SetLocation", teleportLocation);
-            }
-
-            else if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                teleportLocation.x -= conductorTransform.localScale.x / 2 + 1;
-                collision.SendMessage("SetLocation", teleportLocation);
-            }
-
             Debug.Log("x");
+            if (player.movement == Vector2.zero) return;
+            float AnglePlayerConductor = Quaternion.Angle(conductorTransform.rotation,
+                Quaternion.LookRotation(player.movement));
+
+            Debug.Log(AnglePlayerConductor);
+
+
+            
+            if (AnglePlayerConductor == 90)
+            {
+                Debug.Log("R");
+                teleportLocation.x += teleportDistance;
+                collision.SendMessage("SetLocation", teleportLocation);
+            }
+
+            else if (AnglePlayerConductor > 90)
+            {
+                Debug.Log("L");
+                teleportLocation.x -= teleportDistance;
+                collision.SendMessage("SetLocation", teleportLocation);
+            }
+
+            
             teleportLocation = conductorTransform.position;
         }
     }

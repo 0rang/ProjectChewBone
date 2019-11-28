@@ -10,7 +10,9 @@ public class PlayerController : MonoBehaviour
 
     public Rigidbody2D rb;
 
-    Vector2 movement;
+    public Vector2 movement;
+
+    public Quaternion movementAngle;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +25,8 @@ public class PlayerController : MonoBehaviour
     {
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
+        if (movement != Vector2.zero)
+            movementAngle = Quaternion.LookRotation(movement);
     }
 
     private void FixedUpdate()
