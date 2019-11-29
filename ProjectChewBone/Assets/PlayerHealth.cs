@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class PlayerHealth : MonoBehaviour
 {
     private bool InvinsibilityFramesOn;
@@ -35,6 +35,7 @@ public class PlayerHealth : MonoBehaviour
             if (Health <= 0)
             {
                 Debug.Log("Game Over");
+                SceneManager.LoadScene("GameOver");
 
             }
             SpriteRenderer PlayerSprite = Player.GetComponent<SpriteRenderer>();

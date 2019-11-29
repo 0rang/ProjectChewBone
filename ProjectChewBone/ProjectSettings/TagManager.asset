@@ -7,6 +7,8 @@ TagManager:
   - Safe Platform
   - Safe Wall
   - Enemy
+  - Bullets
+  - Events
   layers:
   - Default
   - TransparentFX
@@ -16,11 +18,11 @@ TagManager:
   - UI
   - 
   - 
-  - Player
-  - Platform
   - Wall
-  - 
-  - 
+  - Platform
+  - Player
+  - Bullet
+  - Events
   - 
   - 
   - 
