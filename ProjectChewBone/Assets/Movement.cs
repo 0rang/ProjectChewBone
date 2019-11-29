@@ -4,16 +4,21 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     public Rigidbody2D player;
-    public float thrust, upthrust;
+    public Rigidbody2D bulletPrefab;
+    public float thrust, upthrust, OffsetX, OffsetY, FireRate, Damage;
+    public LayerMask NotToHit;
     public BoxCollider2D playercollidor;
     public bool JumpFlag, WallJumpFlag, UpFlag;
-    private int Direction;
+    public int Direction;
     private float horizontalInput, verticalInput;
+    private bool spaceInput;
     public float speed, JumpForce;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        Direction = 1;
         
     }
 
@@ -22,25 +27,23 @@ public class Movement : MonoBehaviour
     {
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
+        spaceInput = Input.GetButtonDown("Jump");
+
 
         //for only touching ground
         if ((Input.GetKeyUp(KeyCode.W) && !Input.GetKey(KeyCode.UpArrow)) || (Input.GetKeyUp(KeyCode.UpArrow) && !Input.GetKey(KeyCode.W)))
         {
             UpFlag = false;
         }
-        //check if player is pressing any buttons
-        /*if (Input.GetKey(KeyCode.D))
+        if (horizontalInput > 0)
         {
-            
-            player.AddForce(transform.right * thrust * Time.deltaTime, ForceMode2D.Impulse);
             Direction = 1;
-            
         }
-        if (Input.GetKey(KeyCode.A))
+        else if (horizontalInput < 0)
         {
             Direction = -1;
-            player.AddForce(- transform.right * thrust * Time.deltaTime, ForceMode2D.Impulse);
-        }*/
+        }
+ 
 
         player.velocity = new Vector2(speed * horizontalInput, player.velocity.y);
 
@@ -53,13 +56,15 @@ public class Movement : MonoBehaviour
                 player.velocity = new Vector2(player.velocity.x, JumpForce);
                 JumpFlag = true;
                 UpFlag = true;
-                /*player.AddForce(transform.up * upthrust * Time.deltaTime, ForceMode2D.Impulse);
-                JumpFlag = true;
-                UpFlag = true;*/
             }
             
         }
         //if pressing buttons, then move
+
+        if (spaceInput)
+        {
+            Shoot();
+        }
 
     }
 
@@ -84,6 +89,13 @@ public class Movement : MonoBehaviour
         JumpFlag = true;
         UpFlag = true;
 
+    }
+
+    public void Shoot()
+    {
+        Vector3 Offset = new Vector3(OffsetX*Direction,OffsetY,0);
+        Instantiate(bulletPrefab,transform.position + Offset,Quaternion.identity);
+        Debug.Log("shuut");
     }
 
 

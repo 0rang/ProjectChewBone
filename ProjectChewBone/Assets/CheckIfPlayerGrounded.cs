@@ -5,14 +5,22 @@ using UnityEngine;
 
 public class CheckIfPlayerGrounded : MonoBehaviour
 {
-    public Collider2D playerCollider;
+    private Collider2D playerCollider;
     private GameObject PlayerObject; 
 
     // Start is called before the first frame update
     void Start()
     {
-        
-        
+        PlayerObject = GameObject.Find("Player");
+        playerCollider = PlayerObject.GetComponent<Collider2D>();
+        if (playerCollider != null)
+        {
+            Debug.Log("neat");
+        }
+        else
+        {
+            Debug.Log("yeet");
+        }
     }
 
     // Update is called once per frame
